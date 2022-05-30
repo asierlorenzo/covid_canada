@@ -1,9 +1,16 @@
-install.packages("canadacovid")
-library(canadacovid)
-library(dplyr)
-library(lubridate)
+#*@apiName Datos COVID Canada
+#*@apiTitle Datos COVID Canada
+#*@apiDescription Esta API devuelve las provincias 
+#*con mas contagios y vacunas
 
-datos_covid_Canada <- function (fecha) {
+#* @param fecha Indica fecha con formato yyyy-mm-dd
+#* @get /provincia
+
+function (fecha="") {
+  library(canadacovid)
+  library(dplyr)
+  library(lubridate)
+  
   reportes <- get_reports(split = c("province"))
   
   reportes_filter <- reportes %>%
@@ -28,10 +35,12 @@ datos_covid_Canada <- function (fecha) {
     filter(tasa_vacunas_medias==max(tasa_vacunas_medias)) %>%
     select(name)
   
-  return(print(paste("La provincia con mayor tasa de contagios es", Provincia_Mayor_Tasa_Casos, "y la provincia con mayor tasa de vacunas diarias es", Provincia_Mayor_Tasa_Vacunas)))
+  print(paste("La provincia con mayor tasa de contagios es", Provincia_Mayor_Tasa_Casos, "y la provincia con mayor tasa de vacunas diarias es", Provincia_Mayor_Tasa_Vacunas))
 }
 
-datos_covid_Canada("2021-06-30")
+
+
+
 
 
 
